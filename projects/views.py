@@ -29,7 +29,3 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy("show_project", args=[self.object.id])
-
-    def form_valid(self, form):
-        form.instance.description = self.request.user
-        return super().form_valid(form)

@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from tasks.models import Task
 from django.urls import reverse_lazy
+from django.views.generic.list import ListView
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -11,8 +13,17 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     fields = ["name", "start_date", "due_date", "project", "assignee"]
 
     def get_success_url(self):
-        return reverse_lazy("show_project", args=[self.object.id])
+        return reverse_lazy("show_project", args=[self.object.project.id])
 
-    def form_valid(self, form):
-        form.instance.name = self.request.user
-        return super().form_valid(form)
+
+class TaskListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = "tasks/mine.html"
+    context_object_name = "task_list"
+
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    context_object_name = "taskupdate"
+    success_url = reverse_lazy("show_my_tasks")
+    fields = ["is_completed"]

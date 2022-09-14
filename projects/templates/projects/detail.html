@@ -17,8 +17,8 @@
                 <th>Due date</th>
                 <th>Is completed</th>
             </tr>
+        </thead>
             <tbody>
-            </thead>
             {% for deets in projectdetail.tasks.all %}
                 <tr>
                     <td>{{ deets.name }}</td>
