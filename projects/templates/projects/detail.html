@@ -1,37 +1,38 @@
 {% extends 'base.html' %}
 {% load markdownify %}
 {% block content %}
-
-<div>
-    <h1>{{ object.name }}</h1>
-    {{ object.description|markdownify }}
-    <h2>Tasks</h2>
-    <p><a href="{% url 'create_task' %}">Create a new task</a></p>
-    {% if projectdetail.tasks.all|length == 0 %}
-    <p>This project has no tasks</p>
-    {% else %}
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Assignee</th>
-                <th>Start date</th>
-                <th>Due date</th>
-                <th>Is completed</th>
-            </tr>
-        </thead>
-            <tbody>
-            {% for deets in projectdetail.tasks.all %}
-                <tr>
-                    <td>{{ deets.name }}</td>
-                    <td>{{ deets.assignee }}</td>
-                    <td>{{ deets.start_date }}</td>
-                    <td>{{ deets.due_date }}</td>
-                    <td>{{ deets.is_complete|yesno }}</td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-            </tbody>
+    <div>
+        <h1>{{ object.name }}</h1>
+        {{ object.description|markdownify }}
+        <h2>Tasks</h2>
+        <p>
+            <a href="{% url 'create_task' %}">Create a new task</a>
+        </p>
+        {% if projectdetail.tasks.all|length == 0 %}
+            <p>This project has no tasks</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Assignee</th>
+                        <th>Start date</th>
+                        <th>Due date</th>
+                        <th>Is completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deets in projectdetail.tasks.all %}
+                        <tr>
+                            <td>{{ deets.name }}</td>
+                            <td>{{ deets.assignee }}</td>
+                            <td>{{ deets.start_date }}</td>
+                            <td>{{ deets.due_date }}</td>
+                            <td>{{ deets.is_complete|yesno }}</td>
+                        </tr>
+                    {% endfor %}
+        {% endif %}
+    </tbody>
     </table>
-</div>
+    </div>
 {% endblock content %}
